@@ -23,7 +23,6 @@ We use python to build our code, you need to install those package to run
 
 ### Processing dataset
 To accelerate training and reduce data loading overhead, we recommend preprocessing raw datasets into .npy format files. This approach significantly improves I/O efficiency during both training and evaluation, especially when dealing with large-scale datasets like NUS-WIDE and COCO.
-After all mat file generated, the dir of `dataset` will like this:
 
 
 
