@@ -25,7 +25,27 @@ We use python to build our code, you need to install those package to run
 To accelerate training and reduce data loading overhead, we recommend preprocessing raw datasets into .npy format files. This approach significantly improves I/O efficiency during both training and evaluation, especially when dealing with large-scale datasets like NUS-WIDE and COCO.
 After all mat file generated, the dir of `dataset` will like this:
 
+## Running Experiments
+We provide two scripts for running experiments:
+### 🔹 `run.py`: Run a single experiment
+This script allows you to launch a single experiment by specifying the dataset, model architecture, and augmentation options through command-line arguments.
 
+**Example:**
+
+```bash
+python run.py --dataset coco --arch resnet50 --soft True
+```
+You can view all available options by checking the argument parser in `run.py`.
+
+### 🔹 `run_list_2.py`: Run multiple experiments in batch
+
+This script supports **automated batch execution** across combinations of datasets, models, and augmentations. It is useful for ablation studies and large-scale evaluations.
+
+**Usage:**
+
+```bash
+python run_list_2.py
+```
 
 ## Acknowledgments
 
