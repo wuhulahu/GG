@@ -4,6 +4,8 @@
 
 > 🚩 *Discard to gain*: GG introduces a semantic retention score to evaluate augmented content and integrate it into pairwise losses for more robust retrieval optimization.
 
+**Note:** This work is part of a research paper currently under peer review. Some features may be under development and subject to updates.
+
 ---
 
 
