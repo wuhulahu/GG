@@ -47,6 +47,40 @@ This script supports **automated batch execution** across combinations of datase
 python run_list_2.py
 ```
 
+## Note on $G_{cut}$ Efficiency
+
+The $G_{cut}$ module uses attention-based saliency to perform targeted cropping on key semantic regions. By design, this
+introduces **an additional forward pass** to compute attention maps, which may increase computational overhead.
+
+### Approximate Optimization (Proposed, Not Yet Implemented)
+
+In response to reviewer feedback, we propose a lightweight approximation to mitigate this overhead. The core idea is to
+**reuse the attention maps generated in the previous epoch** instead of recomputing them each time:
+
+- In the middle to later stages of training, model attention tends to stabilize.
+- Stored attention maps from the previous epoch can still provide reliable semantic guidance.
+- Attention maps are lightweight and inexpensive to store and apply.
+
+This approximation eliminates the additional forward pass while preserving most of the semantic benefit of $G_{cut}$.
+
+| Variant                          | Extra Forward Pass | Attention Cost                                                          | Total Complexity (per sample)                                                   |
+|----------------------------------|--------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| $G_t$                            | ❌                  | None                                                                    | $\mathcal{O}(1)$                                                                |
+| **Original $G_{cut}$**           | ✅                  | $\mathcal{O}(c \cdot h \cdot w)$ (CNN) / $\mathcal{O}(h \cdot w)$ (ViT) | $\mathcal{O}(n + c \cdot h \cdot w)$ (CNN) / $\mathcal{O}(n + h \cdot w)$ (ViT) |
+| **Approx. $G_{cut}$** | ❌                  | Same as above                                                           | $\mathcal{O}(c \cdot h \cdot w)$ / $\mathcal{O}(h \cdot w)$                     |
+
+#### Notation:
+
+- $c$: number of channels in the feature map
+- $h \times w$: spatial resolution of the feature map used for attention computation
+- $n$: complexity of a single forward pass through the backbone network (feature extraction)
+- All values are theoretical per-sample costs
+
+This approximation substantially reduces computational burden while preserving semantic guidance, as the cost of feature
+extraction ($\mathcal{O}(n)$) dominates the attention computation. It is therefore well-suited for large-scale or
+time-constrained training pipelines. This strategy was inspired by a reviewer suggestion and is documented here as part of our ongoing optimization efforts.
+
+
 ## Acknowledgments
 
 🧬 This project is developed based on the following open-source repositories.We sincerely thank the original author for making the code publicly available:
