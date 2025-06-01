@@ -1,10 +1,8 @@
-# Gain from Give Up: Intuitive Data Augmentation Framework for Image Retrieval
+# Gain from Give Up: Intuitive Data Augmentation Framework for Image Retrieval *(under review)*
 
 **GG** is a general and plug-and-play data augmentation framework designed to improve deep hashing and real-valued retrieval tasks by explicitly modeling and mitigating semantic mismatches introduced during training. Unlike conventional augmentation strategies that assume label preservation, GG identifies and selectively discards semantically inconsistent regions to provide more informative gradients during learning.
 
 > 🚩 *Discard to gain*: GG introduces a semantic retention score to evaluate augmented content and integrate it into pairwise losses for more robust retrieval optimization.
-
-**Note:** This work is part of a research paper currently under peer review. Some features may be under development and subject to updates.
 
 ---
 
